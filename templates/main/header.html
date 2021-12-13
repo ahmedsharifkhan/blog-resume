@@ -1,0 +1,90 @@
+{% load static %}
+
+{% url "home" as home %}
+{% url "bloghome" as bloghome %}
+{% url "about" as about %}
+{% url "contact" as contact %}
+{% url "resume" as resume %}
+
+<header class="header">
+  <!-- Main Navbar-->
+  <nav class="navbar navbar-expand-lg">
+    <div class="search-area">
+      <div class="search-area-inner d-flex align-items-center justify-content-center">
+        <div class="close-btn"><i class="icon-close"></i></div>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-8">
+            <form action="/search"  method="get">
+              
+              <div class="form-group">
+                <input type="search" name="query"
+                id="query" placeholder="What are you looking for?">
+                <button type="submit" class="submit"><i class="icon-search-1"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <!-- Navbar Brand -->
+      <div class="navbar-header d-flex align-items-center justify-content-between">
+        <!-- Navbar Brand --><a href="/" class="navbar-brand">CodeApp</a>
+        <!-- Toggle Button-->
+        <button type="button" data-toggle="collapse" data-target="#navbarcollapse" aria-controls="navbarcollapse"
+          aria-expanded="false" aria-label="Toggle navigation"
+          class="navbar-toggler"><span></span><span></span><span></span></button>
+      </div>
+      <!-- Navbar Menu -->
+      <div id="navbarcollapse" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a href="/" class="nav-link {% if request.path == home %} active {% endif %} ">Home</a>
+          </li>
+          <li class="nav-item"><a href="/blog"
+              class="nav-link {% if request.path == bloghome %} active {% endif %} ">Blog</a>
+          </li>
+          <li class="nav-item"><a href="/about"
+              class="nav-link {% if request.path == about %} active {% endif %} ">About</a>
+          </li>
+          <li class="nav-item"><a href="/resume"
+            class="nav-link {% if request.path == resume %} active {% endif %} ">Resume</a>
+        </li>
+          <li class="nav-item"><a href="/contact"
+              class="nav-link {% if request.path == contact %} active {% endif %} ">Contact</a>
+          </li>
+        </ul>
+        <div class="navbar-text"><a href="#" class="search-btn mr-3"><i class="icon-search-1"></i></a></div>
+         <!-- Button to  trigger Login modal -->
+         {% if user.is_authenticated %}
+         <div class="btn-group">
+           <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-id-badge"></i>
+           </button>
+           <div class="dropdown-menu">
+             <a class="dropdown-item" href="#">Welcome {{request.user}}</a>
+             <a class="dropdown-item" href="/blog">See Our Blog</a>
+             
+             <div class="dropdown-divider"></div>
+             <a class="dropdown-item" href="/logout">LogOut <i class="fa fa-power-off"></i></a>
+           </div>
+         </div>
+         {% else %}
+        <!-- Example single danger button -->
+
+        <!-- Example single danger button -->
+<!-- Vertically centered modal -->
+
+
+         <button type="button" class="btn btn-danger btn-sm mr-2 navbar-text" data-toggle="modal" data-target="#loginModal">
+          <i class="fa fa-user"></i>
+        </button>
+
+        <button type="button" class="btn btn-danger btn-sm navbar-text" data-toggle="modal" data-target="#signupModal">
+          <i class="fa fa-user-plus"></i>
+        </button>
+        {% endif %}
+        <!-- <ul class="langs navbar-text"><a href="#" class="active">EN</a><span>           </span><a href="#">ES</a></ul> -->
+      </div>
+    </div>
+  </nav>
+</header>

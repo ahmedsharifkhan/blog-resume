@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    {% include "main/head.html" %}
+    <title>{% block title %} {% endblock %}</title>
+  <body>
+    {% include "main/header.html" %}
+    {% include "main/authentication.html" %}
+
+<!-- message alart tag code -->
+    <div class="container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>Message : </strong> {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+    {% block content %}
+    {% endblock content %}
+
+
+    {% include "main/footer.html" %}
+    {% include "main/scripts.html" %}
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-3">
+    <h2>Search results : </h2>
+    
+    {% if allPosts|length < 1 %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+            <p> Your search - <div class="text-truncate"> <strong>{{query | truncatechars:100 }}</strong></div> - did not match any documents.</p>
+        </div>
+    </div>
+            <br>
+            <p>Suggestions: </p> 
+            <ul class="text-decoration-none">
+                <li>Make sure that all words are spelled correctly.</li>
+                <li>Try different keywords.</li>
+                <li>Try fewer keywords.</li>
+                <li>Try more general keywords.</li>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+
+<div class="container">
+    <div class="row">
+        <!-- post -->
+        {% for post in allPosts %}
+        
+        <div class="post col-xl-6">
+            <div class="post-thumbnail">
+                <a href="/blog/{{post.slug}}">
+                </a>
+            </div>
+            <div class="post-details">
+              <div class="post-meta d-flex justify-content-between">
+                
+                  <div class="date meta-last"><span class="badge text-white" style="background-color: #468fc3;">{{ post.timestamp| timesince }} ago</span></div>
+                  <div class="category"><a href="#"></a></div>
+              </div>
+              <a href="/blog/{{post.slug}}">
+                <h3 class="h4">{{post.title}}</h3>
+            </a>
+            <p class="text-muted">{{post.overview| truncatechars:200 }}</p>
+            <footer class="post-footer d-flex align-items-center">
+                <!-- <div class="date"><i class="icon-clock"></i> {{ post.timestamp|timesince }} ago</div> -->
+            </footer>
+        </div>
+          </div>
+          
+          {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

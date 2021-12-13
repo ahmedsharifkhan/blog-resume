@@ -1,0 +1,71 @@
+    <!-- Page Footer-->
+    <footer class="main-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="logo">
+                <h6 class="text-white">CodeApp</h6>
+              </div>
+              <div class="contact-details">
+                <p>53 Broadway, Broklyn, NY 11249</p>
+                <a href="tel:+8801744750096" class="text-white text-decoration-none"><p>Phone: (020) 123 456 789</p></a>
+                <p>Email: <a href="mailto:abdunnoor540@gmail.com" class="text-white text-decoration-none">Info@Company.com</a></p>
+                <ul class="social-menu">
+                  {% for social in footerSocial %}
+                  <li class="list-inline-item"><a href="{{social.socilaLink}}" target="_blank"><i class="{{social.socilaTitle}}"></i></a></li>
+                  {% endfor %}
+                  <li class="list-inline-item"><a href="https://www.facebook.com/ahmedsharifkhannoor" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                  <li class="list-inline-item"><a href="https://twitter.com/maxnoor87" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                  <li class="list-inline-item"><a href="https://www.instagram.com/ahmedsharifkhannoor" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                  <li class="list-inline-item"><a href="https://github.com/ahmedsharifkhan" target="_blank"><i class="fa fa-github"></i></a></li>
+                  <li class="list-inline-item"><a href="https://www.behance.net/ahmedsharifkhannoor" target="_blank"><i class="fa fa-behance"></i></a></li>
+                  <li class="list-inline-item"><a href="https://www.pinterest.com/ahmedsharifkhannoor" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="menus d-flex">
+                <ul class="list-unstyled">
+                  <li> <a href="/">Home</a></li>
+                  <li> <a href="/about">About</a></li>
+                  <li> <a href="/blog">Blog</a></li>
+                  <li> <a href="/contact">Contact</a></li>
+                  <li> <a href="#">Privacy &amp; Policy</a></li>
+                </ul>
+                <ul class="list-unstyled">
+                 
+                  <li> <a href="#">FAQ</a></li>
+                  
+                  <li> <a href="/contact">Contact</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="latest-posts">
+                {% for post in most_recent %}
+                  <a href="/blog/{{post.slug}}">
+                    <div class="post d-flex align-items-center">
+                      <div class="image"><img src="{{post.thumbnail.url}}" alt="..." class="img-fluid"></div>
+                      <div class="title"><strong>{{post.title}}</strong><span class="date last-meta">{{ post.timestamp|timesince }} ago</span></div>
+                    </div>
+                  </a>
+                  {% endfor %}
+               </div>
+            </div>
+          </div>
+        </div>
+        <div class="copyrights">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <p>&copy; 2021. All rights reserved. Ahmed Shair Khan Noor</p>
+              </div>
+              <div class="col-md-6 text-right">
+                <p>Template By <a href="https://ahmedsharifkhan.gq/" class="text-white text-decoration-none" target="_blank">Bootstrapious</a>
+                  <!-- Please do not remove the backlink to Bootstrap Temple unless you purchase an attribution-free license @ Bootstrap Temple or support us at http://bootstrapious.com/donate. It is part of the license conditions. Thanks for understanding :)                         -->
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>

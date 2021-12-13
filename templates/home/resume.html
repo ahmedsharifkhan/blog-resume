@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Resume | {% for resume in resume %}{{resume.resumetitle}}{% endfor %}{% endblock %}
+
+
+{% block content %}
+<style>
+    .blog-post img{
+      max-width: 100%;
+    }
+  </style>
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-12 blog-main">
+            <div class="blog-post m-3">
+                {% for resume in resume %}
+                {{resume.resumecontent | safe}}
+                {% endfor %}
+            </div>
+
+           
+    </div>
+</div>
+</div>
+{% endblock content %}

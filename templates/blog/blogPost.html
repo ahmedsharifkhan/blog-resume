@@ -1,0 +1,193 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}{{post.title}}{% endblock %}
+{% load extras %}
+
+{% block content %}
+<style>
+  .post-body img{
+    max-width: 100%;   
+  }
+</style>
+
+
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="post blog-post col-lg-8"> 
+          <div class="container">
+            <div class="post-single">
+              <div class="post-thumbnail"><img src="{{post.thumbnail.url}}" alt="..." class="img-fluid"></div>
+              <div class="post-details">
+                <div class="post-meta d-flex justify-content-between">
+                  <!-- <div class="category"><a href="#">Business</a><a href="#">Financial</a></div> -->
+                </div>
+                <h1>{{post.title}}</h1>
+                <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{post.author_pic.url}}" alt="Logo" style="width:40px;" class="rounded-pill"></div>
+                    <div class="title"><span>{{post.author}}</span></div></a>
+                  <div class="d-flex align-items-center flex-wrap">       
+                    <div class="date"><i class="icon-clock"></i> {{ post.timestamp|timesince }} ago</div>
+                    <div class="views"><i class="icon-eye"></i>*</div>
+                    <div class="comments meta-last"><i class="icon-comment"></i>{{comments.count}}</div>
+                  </div>
+                </div>
+                <div class="post-body">
+                    {{ post.content | safe }}
+                </div>
+                <!-- <div class="post-tags"><a href="#" class="tag">#Business</a><a href="#" class="tag">#Tricks</a><a href="#" class="tag">#Financial</a><a href="#" class="tag">#Economy</a></div> -->
+                <!-- <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row"><a href="#" class="prev-post text-left d-flex align-items-center">
+                    <div class="icon prev"><i class="fa fa-angle-left"></i></div>
+                    <div class="text"><strong class="text-primary">Previous Post </strong>
+                      <h6>I Bought a Wedding Dress.</h6>
+                    </div></a><a href="#" class="next-post text-right d-flex align-items-center justify-content-end">
+                    <div class="text"><strong class="text-primary">Next Post </strong>
+                      <h6>I Bought a Wedding Dress.</h6>
+                    </div>
+                    <div class="icon next"><i class="fa fa-angle-right">   </i></div></a>
+                  </div> -->
+                  <!-- test comment -->
+                  <!-- <form action="/blog/postComment" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="comment" placeholder="Enter comment here">
+                    <input type="hidden" name="postSno" value="{{post.sno}}" >
+                    <input type="submit" value="Submit">
+                   </form> -->
+
+
+                  <div class="add-comment">
+                    <header>
+                      <h3 class="h6">Leave a comment</h3>
+                    </header>
+                    {% if user.is_authenticated %}
+                    <form action="/blog/postComment" method="post">
+                      {% csrf_token %}
+                      <div class="row">
+                        <div class="form-group col-md-12">           
+                          <textarea name="comment" id="comment" placeholder="Type your comment" class="form-control"></textarea>
+                          
+                        </div>
+                        <div class="form-group col-md-12">
+                          <input type="hidden" name="postSlug" value="{{post.slug}}">
+                          <input type="hidden" name="parentSno" value="">
+                          <button type="submit" class="btn btn-sm btn-danger">Submit Comment</button>
+                        </div>
+                      </div>
+                    </form>
+                    {% else %}
+                  </div>
+                 <p> Please login to post a comment </p> 
+                  <button type="submit" class="btn btn-danger" disabled>Submit Comment</button>
+                  {% endif %}
+
+       
+                <div class="post-comments">
+                  <header>
+                    <h3 class="h6">Post Comments<span class="no-of-comments">({{comments.count}})</span></h3>
+                  </header>
+                  {% for comment in comments %}
+                  <div class="comment">
+                    <div class="comment-header d-flex justify-content-between">
+                      <div class="user d-flex align-items-center">
+                        <div class="image"><img src="{% static 'img/comment.png' %}" alt="..." class="img-fluid rounded-circle"></div>
+                        <div class="title"><strong>{{comment.user.username}}</strong><span class="date badge badge-light">{{comment.timestamp| timesince}}</span></div>
+                      </div>
+                    </div>
+                    <div class="comment-body">
+                    <div><p>{{comment.comment}}</p></div>
+                      
+                    {% if user.is_authenticated %}
+                      <p><button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#replyBox{{comment.sno}}" aria-expanded="false" aria-controls="collapseExample">
+                          Reply
+                        </button>
+                      </p>
+                      {% else %}
+                      <p><button class="btn btn-sm btn-danger" type="button" data-toggle="collapse" data-target="#replyBox{{comment.sno}}" disabled aria-expanded="false" aria-controls="collapseExample">
+                        Reply
+                      </button>
+                    </p>
+                    {% endif %}
+
+
+                      <div class="collapse" id="replyBox{{comment.sno}}">
+                        <div class="card card-body">
+                          <form action="/blog/postComment" method="post" class="commenting-form">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="form-group col-md-12">
+                                <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                                <textarea name="comment" id="comment" placeholder="Type your comment" class="form-control"></textarea>
+                              </div>
+                              <div class="form-group col-md-12">
+                                <input type="hidden" name="postSlug" value="{{post.slug}}">
+                                <button type="submit" class="btn btn-sm btn-danger">Reply Comment</button>
+                              </div>
+                            </div>
+                          </form>
+                          <div class="comment-header d-flex justify-content-between">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- repliy of comment -->
+                      {% for reply in replyDict|get_val:comment.sno %}
+                        
+                      <div class="comment-header d-flex justify-content-between">
+                        <div class="user d-flex align-items-center">
+                          <div class="image"><img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle"></div>
+                          <div class="title"><strong>{{reply.user.username}}</strong><span class="date badge badge-light">{{reply.timestamp| timesince}}</span></div>
+                        </div>
+                      </div>
+                      <div class="comment-body">
+                        <div><p>{{reply.comment}}</p></div>
+                      </div>
+                      {% endfor %}
+              </div>
+                  {% endfor %}
+                  <!-- <div class="comment">
+                    <div class="comment-header d-flex justify-content-between">
+                      <div class="user d-flex align-items-center">
+                        <div class="image"><img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle"></div>
+                        <div class="title"><strong>Nikolas</strong><span class="date">May 2016</span></div>
+                      </div>
+                    </div>
+                    <div class="comment-body">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                    </div>
+                  </div> -->
+
+                </div>
+                <!-- <div class="add-comment">
+                  <header>
+                    <h3 class="h6">Leave a reply</h3>
+                  </header>
+                  <form action="." method="post" class="commenting-form">
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <input type="text" name="username" id="username" placeholder="Name" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <input type="email" name="username" id="useremail" placeholder="Email Address (will not be published)" class="form-control">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <textarea name="usercomment" id="usercomment" placeholder="Type your comment" class="form-control"></textarea>
+                      </div>
+                      <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-secondary">Submit Comment</button>
+                      </div>
+                    </div>
+                  </form>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </main>
+      
+
+        {% include 'blog/sidebar.html' %}
+
+
+
+      </div>
+    </div>
+
+    {% endblock content %}

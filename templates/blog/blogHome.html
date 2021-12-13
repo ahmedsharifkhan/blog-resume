@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}My amazing blog{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="posts-listing col-lg-8"> 
+          <div class="container">
+            <div class="row">
+              <!-- post -->
+              {% for post in allPosts %}
+              <div class="post col-xl-6">
+                <div class="post-thumbnail">
+                  <a href="/blog/{{post.slug}}"><img src="{{post.thumbnail.url}}" alt="..." class="img-fluid">
+                  </a>
+                </div>
+                <div class="post-details">
+                  <div class="post-meta d-flex justify-content-between">
+                    <div class="date meta-last">{{ post.timestamp| timesince }}</div>
+                    <div class="category"><a href="#">Business</a></div>
+                  </div>
+                    <a href="/blog/{{post.slug}}">
+                      <h3 class="h4">{{post.title}}</h3>
+                    </a>
+                  <p class="text-muted">{{post.overview| truncatechars:200 }}</p>
+                  <footer class="post-footer d-flex align-items-center">
+                   
+
+                      <a href="#" class="author d-flex align-items-center flex-wrap">
+                        <div class="avatar"><img src="{{post.author_pic.url}}" alt="Logo" style="width:40px;" class="rounded-pill"></div>
+                        <div class="title"><span>{{post.author}}</span></div>
+                      </a>
+                  
+                    <!-- <div class="date"><i class="icon-clock"></i> {{ post.timestamp|timesince }} ago</div> -->
+                    <div class="comments meta-last"><i class="icon-comment"></i>{{comments.count}}</div>
+                  </footer>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+           
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination pagination-template d-flex justify-content-center">
+                {% if allPosts.has_previous %}                
+                <li class="page-item"><a href="?{{ page_request_var }}={{ allPosts.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+                {% endif %}
+                <li class="page-item"><a href="?{{ page_request_var }}={{ allPosts.number }}" class="page-link active">{{ allPosts.number }}</a></li>
+                {% if allPosts.has_next %}
+                <li class="page-item"><a href="?{{ page_request_var }}={{ allPosts.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+                {% endif %}
+              </ul>
+            </nav> 
+          </div>
+        </main>
+      <!-- This is form sidebar -->
+        {% include 'blog/sidebar.html' %}
+      </div>
+    </div>
+    {% endblock content %}
